@@ -54,13 +54,25 @@ def avoid_borders(
     """
 
     if my_head["x"] + 1 == board_width:  # my neck is left of my head
-        possible_moves.remove("left")
+        try:
+            possible_moves.remove("left")
+        except ValueError:
+            pass
     elif my_head["x"] == 0:  # my neck is right of my head
-        possible_moves.remove("right")
+        try:
+            possible_moves.remove("right")
+        except ValueError:
+            pass
     elif my_head["y"] == 0:  # my neck is below my head
-        possible_moves.remove("down")
+        try:
+            possible_moves.remove("down")
+        except ValueError:
+            pass
     elif my_head["y"] + 1 == board_height:  # my neck is above my head
-        possible_moves.remove("up")
+        try:
+            possible_moves.remove("up")
+        except ValueError:
+            pass
 
     return possible_moves
 
@@ -100,6 +112,7 @@ def choose_move(data: dict) -> str:
     board_width = data["board"]["width"]
 
     possible_moves = avoid_borders(my_head, possible_moves, board_height, board_width)
+    print(possible_moves)
 
     # TODO Using information from 'data', don't let your Battlesnake pick a move that would hit its own body
 
@@ -108,7 +121,7 @@ def choose_move(data: dict) -> str:
     # TODO: Using information from 'data', make your Battlesnake move towards a piece of food on the board
 
     # Choose a random direction from the remaining possible_moves to move in, and then return that move
-    move = random.choice(possible_moves)
+
     # TODO: Explore new strategies for picking a move that are better than random
 
     print(
