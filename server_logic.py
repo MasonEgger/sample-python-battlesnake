@@ -50,7 +50,7 @@ def avoid_borders(
     possible_moves: List of strings. Moves to pick from.
             e.g. ["up", "down", "left", "right"]
 
-    return: The list of remaining possible_moves, with the 'neck' direction removed
+    return: The list of remaining possible_moves, with the borders removed
     """
 
     if my_head["x"] + 1 == board_width:  # my neck is left of my head
@@ -58,12 +58,12 @@ def avoid_borders(
             possible_moves.remove("left")
         except ValueError:
             pass
-    elif my_head["x"] == 0:  # my neck is right of my head
+    elif my_head["x"] < 0:  # my neck is right of my head
         try:
             possible_moves.remove("right")
         except ValueError:
             pass
-    elif my_head["y"] == 0:  # my neck is below my head
+    elif my_head["y"] < 0:  # my neck is below my head
         try:
             possible_moves.remove("down")
         except ValueError:
@@ -109,7 +109,9 @@ def choose_move(data: dict) -> str:
 
     # TODO: Using information from 'data', find the edges of the board and don't let your Battlesnake move beyond them
     board_height = data["board"]["height"]
+    print(board_height)
     board_width = data["board"]["width"]
+    print(board_width)
 
     possible_moves = avoid_borders(my_head, possible_moves, board_height, board_width)
 
@@ -124,7 +126,7 @@ def choose_move(data: dict) -> str:
     # TODO: Explore new strategies for picking a move that are better than random
 
     print(
-        f"{data['game']['id']} MOVE {data['turn']}: {move} picked from all valid options in {possible_moves}"
+        f"{data['game']['id']} MOVE {data['turn']}: {move} picked from all valid options in {possible_moves}. The board dimensions were {board_height} x {board_width}"
     )
 
     return move
